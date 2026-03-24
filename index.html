@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Plato — La commande à table, simplifiée</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #6366F1;
+      --primary-dark: #4F46E5;
+      --primary-light: #EEF2FF;
+      --accent: #F97316;
+      --accent-light: #FFF7ED;
+      --text: #111827;
+      --text-muted: #6B7280;
+      --bg: #FFFFFF;
+      --bg-alt: #F9FAFB;
+      --border: #E5E7EB;
+      --success: #10B981;
+      --radius: 16px;
+      --shadow: 0 4px 24px rgba(0,0,0,0.06);
+      --shadow-lg: 0 12px 48px rgba(0,0,0,0.1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+    img { max-width: 100%; }
+
+    /* ============ NAV ============ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      background: rgba(255,255,255,0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      z-index: 1000;
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1100px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 22px; font-weight: 800; color: var(--primary);
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px; background: var(--primary);
+      border-radius: 10px; display: flex; align-items: center; justify-content: center;
+    }
+    .nav-logo-icon svg { width: 22px; height: 22px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: var(--primary); color: white; padding: 10px 22px;
+      border-radius: 10px; font-size: 14px; font-weight: 600;
+      transition: background .2s;
+    }
+    .nav-cta:hover { background: var(--primary-dark); }
+
+    /* ============ HERO ============ */
+    .hero {
+      padding: 140px 24px 80px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg) 100%);
+    }
+    .hero-inner { max-width: 720px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: white; border: 1px solid var(--border);
+      padding: 6px 16px; border-radius: 100px;
+      font-size: 13px; font-weight: 500; color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .hero-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
+    .hero h1 {
+      font-size: clamp(36px, 5vw, 56px);
+      font-weight: 900; line-height: 1.1;
+      letter-spacing: -1.5px; color: var(--text);
+      margin-bottom: 20px;
+    }
+    .hero h1 span { color: var(--primary); }
+    .hero p {
+      font-size: 18px; color: var(--text-muted);
+      max-width: 520px; margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: var(--primary); color: white;
+      padding: 16px 32px; border-radius: 12px;
+      font-size: 16px; font-weight: 700;
+      transition: all .2s; box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+    }
+    .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
+    .btn-secondary {
+      background: white; color: var(--text); border: 1.5px solid var(--border);
+      padding: 16px 32px; border-radius: 12px;
+      font-size: 16px; font-weight: 600;
+      transition: all .2s;
+    }
+    .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
+
+    /* ============ STATS BAR ============ */
+    .stats-bar {
+      padding: 48px 24px;
+      background: var(--bg);
+      border-bottom: 1px solid var(--border);
+    }
+    .stats-inner {
+      max-width: 900px; margin: 0 auto;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 32px; text-align: center;
+    }
+    .stat-num { font-size: 40px; font-weight: 900; color: var(--primary); }
+    .stat-label { font-size: 14px; color: var(--text-muted); margin-top: 4px; font-weight: 500; }
+
+    /* ============ AVANTAGES ============ */
+    .section { padding: 96px 24px; }
+    .section-alt { background: var(--bg-alt); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-header { text-align: center; margin-bottom: 64px; }
+    .section-tag {
+      display: inline-block; background: var(--primary-light);
+      color: var(--primary); font-size: 13px; font-weight: 700;
+      padding: 6px 14px; border-radius: 100px;
+      text-transform: uppercase; letter-spacing: 0.5px;
+      margin-bottom: 16px;
+    }
+    .section-header h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 800; letter-spacing: -0.5px;
+      margin-bottom: 16px;
+    }
+    .section-header p { font-size: 17px; color: var(--text-muted); max-width: 560px; margin: 0 auto; }
+
+    .advantages-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 24px;
+    }
+    .advantage-card {
+      background: white; border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 36px 32px;
+      transition: all .3s;
+    }
+    .advantage-card:hover { box-shadow: var(--shadow); border-color: transparent; transform: translateY(-2px); }
+    .advantage-icon {
+      width: 52px; height: 52px; border-radius: 14px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px; margin-bottom: 20px;
+    }
+    .advantage-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .advantage-card p { font-size: 15px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ============ COMMENT CA MARCHE ============ */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 40px; counter-reset: steps;
+    }
+    .step { text-align: center; counter-increment: steps; }
+    .step-num {
+      width: 56px; height: 56px; border-radius: 50%;
+      background: var(--primary); color: white;
+      font-size: 22px; font-weight: 800;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 20px;
+    }
+    .step h3 { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+    /* ============ PRICING ============ */
+    .pricing-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 28px; max-width: 780px; margin: 0 auto;
+    }
+    .pricing-card {
+      background: white; border: 2px solid var(--border);
+      border-radius: 20px; padding: 40px 36px;
+      position: relative; transition: all .3s;
+    }
+    .pricing-card.featured {
+      border-color: var(--primary);
+      box-shadow: 0 8px 40px rgba(99,102,241,0.15);
+    }
+    .pricing-badge {
+      position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+      background: var(--primary); color: white;
+      padding: 5px 18px; border-radius: 100px;
+      font-size: 12px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .pricing-name { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
+    .pricing-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
+    .pricing-price {
+      display: flex; align-items: baseline; gap: 4px;
+      margin-bottom: 8px;
+    }
+    .pricing-amount { font-size: 48px; font-weight: 900; letter-spacing: -2px; }
+    .pricing-period { font-size: 16px; color: var(--text-muted); font-weight: 500; }
+    .pricing-setup { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
+    .pricing-setup strong { color: var(--primary); font-weight: 700; }
+    .pricing-divider { height: 1px; background: var(--border); margin-bottom: 24px; }
+    .pricing-features { list-style: none; margin-bottom: 32px; }
+    .pricing-features li {
+      font-size: 14px; padding: 8px 0;
+      display: flex; align-items: flex-start; gap: 10px;
+    }
+    .pricing-features li::before {
+      content: "✓"; color: var(--success); font-weight: 800;
+      font-size: 15px; flex-shrink: 0;
+    }
+    .pricing-features li.disabled { color: var(--text-muted); opacity: 0.5; }
+    .pricing-features li.disabled::before { content: "—"; color: var(--text-muted); }
+    .pricing-btn {
+      display: block; width: 100%; text-align: center;
+      padding: 14px; border-radius: 12px;
+      font-size: 15px; font-weight: 700;
+      transition: all .2s;
+    }
+    .pricing-btn-primary { background: var(--primary); color: white; }
+    .pricing-btn-primary:hover { background: var(--primary-dark); }
+    .pricing-btn-secondary { background: var(--bg-alt); color: var(--text); }
+    .pricing-btn-secondary:hover { background: var(--border); }
+
+    /* ============ DEMO ============ */
+    .demo-section { text-align: center; }
+    .demo-frame {
+      max-width: 380px; margin: 0 auto;
+      border-radius: 24px; overflow: hidden;
+      box-shadow: var(--shadow-lg);
+      border: 8px solid #1A1A2E;
+      background: #1A1A2E;
+    }
+    .demo-frame iframe {
+      width: 100%; height: 700px; border: none;
+      border-radius: 16px;
+    }
+    .demo-note {
+      margin-top: 20px; font-size: 14px;
+      color: var(--text-muted);
+    }
+
+    /* ============ CONTACT ============ */
+    .contact-card {
+      max-width: 560px; margin: 0 auto;
+      background: white; border: 1px solid var(--border);
+      border-radius: 20px; padding: 48px 40px;
+      box-shadow: var(--shadow);
+    }
+    .form-row { margin-bottom: 20px; }
+    .form-row label {
+      display: block; font-size: 14px; font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .form-row input, .form-row textarea, .form-row select {
+      width: 100%; padding: 12px 16px;
+      border: 1.5px solid var(--border); border-radius: 10px;
+      font-size: 15px; font-family: inherit;
+      transition: border .2s; outline: none;
+      background: var(--bg-alt);
+    }
+    .form-row input:focus, .form-row textarea:focus, .form-row select:focus {
+      border-color: var(--primary); background: white;
+    }
+    .form-row textarea { resize: vertical; min-height: 100px; }
+    .form-submit {
+      width: 100%; padding: 16px; border-radius: 12px;
+      background: var(--primary); color: white;
+      font-size: 16px; font-weight: 700;
+      transition: background .2s;
+    }
+    .form-submit:hover { background: var(--primary-dark); }
+
+    /* ============ FOOTER ============ */
+    footer {
+      padding: 48px 24px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-logo { font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
+    .footer-text { font-size: 13px; color: var(--text-muted); }
+
+    /* ============ RESPONSIVE ============ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .stats-inner { grid-template-columns: 1fr; gap: 24px; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .contact-card { padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a href="#" class="nav-logo">
+      <div class="nav-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="rgba(255,255,255,0.2)"/><path d="M8.5 7.5v9M12 7.5v3.5c0 1.5 3 1.5 3 0V7.5M15.5 14v2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      Plato
+    </a>
+    <div class="nav-links">
+      <a href="#avantages">Avantages</a>
+      <a href="#fonctionnement">Comment ça marche</a>
+      <a href="#tarifs">Tarifs</a>
+      <a href="#demo">Démo</a>
+      <a href="#contact" class="nav-cta">Nous contacter</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Solution française pour restaurateurs
+    </div>
+    <h1>Vos clients commandent.<br><span>Votre cuisine reçoit.</span><br>Instantanément.</h1>
+    <p>Plato digitalise la prise de commande de votre restaurant grâce au QR code. Moins d'attente, moins d'erreurs, plus de chiffre d'affaires.</p>
+    <div class="hero-buttons">
+      <a href="#contact" class="btn-primary">Essayer gratuitement</a>
+      <a href="#demo" class="btn-secondary">Voir la démo →</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div>
+      <div class="stat-num">-70%</div>
+      <div class="stat-label">de temps d'attente pour commander</div>
+    </div>
+    <div>
+      <div class="stat-num">+25%</div>
+      <div class="stat-label">de rotation de table en moyenne</div>
+    </div>
+    <div>
+      <div class="stat-num">0</div>
+      <div class="stat-label">erreur de commande</div>
+    </div>
+  </div>
+</div>
+
+<!-- AVANTAGES -->
+<section class="section section-alt" id="avantages">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Avantages</div>
+      <h2>Pourquoi les restaurateurs choisissent Plato</h2>
+      <p>Pensé pour être simple, intuitif et efficace dès le premier jour.</p>
+    </div>
+    <div class="advantages-grid">
+      <div class="advantage-card">
+        <div class="advantage-icon" style="background:#EEF2FF">⚡</div>
+        <h3>Service ultra-rapide</h3>
+        <p>Le client commande dès qu'il s'assoit. Plus besoin d'attendre qu'un serveur soit disponible. Votre cuisine reçoit la commande en temps réel.</p>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon" style="background:#FEF3C7">💰</div>
+        <h3>Chiffre d'affaires en hausse</h3>
+        <p>Les tables tournent plus vite et les clients commandent plus facilement un dessert ou un café quand c'est à portée de clic.</p>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon" style="background:#D1FAE5">✅</div>
+        <h3>Zéro erreur de commande</h3>
+        <p>Fini les malentendus entre la salle et la cuisine. Ce que le client commande est exactement ce que la cuisine reçoit, mot pour mot.</p>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon" style="background:#FFE4E6">🧑‍🍳</div>
+        <h3>Vos serveurs libérés</h3>
+        <p>Vos serveurs se concentrent sur l'accueil et le conseil au lieu de courir prendre les commandes. Le service devient plus humain.</p>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon" style="background:#E0E7FF">📊</div>
+        <h3>Tableau de bord complet</h3>
+        <p>Suivez vos commandes, votre chiffre d'affaires et vos plats les plus vendus en temps réel depuis votre back-office.</p>
+      </div>
+      <div class="advantage-card">
+        <div class="advantage-icon" style="background:#FFF7ED">🔧</div>
+        <h3>Installation en 24h</h3>
+        <p>On configure tout pour vous : menu, QR codes, écran cuisine. Vous n'avez rien à installer, rien à apprendre de compliqué.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMENT CA MARCHE -->
+<section class="section" id="fonctionnement">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Fonctionnement</div>
+      <h2>Simple comme bonjour</h2>
+      <p>4 étapes. Juste une tablette, un ordi ou un téléphone pour la cuisine, et c'est parti.</p>
+    </div>
+    <div class="steps-grid">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Le client scanne</h3>
+        <p>Un QR code sur chaque table. Le client le scanne avec son téléphone et accède à votre carte complète.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Il commande</h3>
+        <p>Il choisit ses plats, sélectionne son numéro de table et valide. C'est fait en 30 secondes.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>La cuisine reçoit</h3>
+        <p>La commande apparaît instantanément sur l'écran cuisine avec le détail et le numéro de table. Votre équipe prépare.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <h3>Vous encaissez</h3>
+        <p>Paiement au comptoir comme d'habitude, ou directement en ligne depuis le téléphone du client.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TARIFS -->
+<section class="section section-alt" id="tarifs">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Tarifs</div>
+      <h2>Des prix clairs, sans surprise</h2>
+      <p>Moins cher qu'un serveur à mi-temps. Rentabilisé dès la première semaine.</p>
+    </div>
+    <div class="pricing-grid">
+
+      <!-- DECOUVERTE -->
+      <div class="pricing-card">
+        <div class="pricing-name">Découverte</div>
+        <div class="pricing-desc">L'essentiel pour digitaliser vos commandes</div>
+        <div class="pricing-price">
+          <span class="pricing-amount">69€</span>
+          <span class="pricing-period">/mois</span>
+        </div>
+        <div class="pricing-setup">Frais d'installation : <strong>99€</strong> (unique) · Sans engagement</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Menu digital complet par QR code</li>
+          <li>Commande à table en temps réel</li>
+          <li>Écran cuisine avec suivi des commandes</li>
+          <li>Tableau de bord admin</li>
+          <li>Numéro de table sur chaque commande</li>
+          <li>Paiement CB au comptoir & espèces</li>
+          <li>Mise à jour du menu en autonomie</li>
+          <li>Support par email</li>
+          <li class="disabled">Paiement en ligne (Apple Pay, Google Pay, CB)</li>
+          <li class="disabled">Personnalisation aux couleurs du restaurant</li>
+          <li class="disabled">Statistiques avancées</li>
+        </ul>
+        <a href="#contact" class="pricing-btn pricing-btn-secondary">Choisir Découverte</a>
+      </div>
+
+      <!-- PRO -->
+      <div class="pricing-card featured">
+        <div class="pricing-badge">Recommandé</div>
+        <div class="pricing-name">Pro</div>
+        <div class="pricing-desc">L'expérience complète pour votre restaurant</div>
+        <div class="pricing-price">
+          <span class="pricing-amount">99€</span>
+          <span class="pricing-period">/mois</span>
+        </div>
+        <div class="pricing-setup">Frais d'installation : <strong style="color:var(--success)">OFFERTS</strong> · Sans engagement</div>
+        <div class="pricing-divider"></div>
+        <ul class="pricing-features">
+          <li>Tout le forfait Découverte inclus</li>
+          <li>Paiement en ligne intégré (Apple Pay, Google Pay, CB)</li>
+          <li>Personnalisation complète à vos couleurs</li>
+          <li>Statistiques avancées & exports</li>
+          <li>Support prioritaire par téléphone</li>
+          <li>Formation de votre équipe incluse</li>
+          <li>QR codes imprimés sur supports de table</li>
+        </ul>
+        <a href="#contact" class="pricing-btn pricing-btn-primary">Choisir Pro</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- DEMO -->
+<section class="section demo-section" id="demo">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Démo live</div>
+      <h2>Testez par vous-même</h2>
+      <p>Voici exactement ce que vos clients verront sur leur téléphone.</p>
+    </div>
+    <div class="demo-frame">
+      <iframe src="https://keen-monstera-cddb33.netlify.app/" title="Démo Plato"></iframe>
+    </div>
+    <p class="demo-note">Ceci est une démo fonctionnelle. Naviguez, ajoutez des plats au panier, testez !</p>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="section section-alt" id="contact">
+  <div class="section-inner">
+    <div class="section-header">
+      <div class="section-tag">Contact</div>
+      <h2>Prêt à transformer votre service ?</h2>
+      <p>Laissez-nous vos coordonnées, on vous recontacte sous 24h pour en discuter et répondre à toutes vos questions.</p>
+    </div>
+    <div class="contact-card">
+      <form onsubmit="submitForm(event)">
+        <input type="hidden" name="access_key" value="0366f2be-ce5a-4647-b016-497dd75f2093" />
+        <input type="hidden" name="subject" value="Nouveau contact Plato" />
+        <input type="hidden" name="from_name" value="Plato - Formulaire vitrine" />
+        <div class="form-row">
+          <label>Nom du restaurant *</label>
+          <input type="text" name="restaurant" placeholder="Ex : Le Petit Bistrot" required />
+        </div>
+        <div class="form-row">
+          <label>Votre nom *</label>
+          <input type="text" name="name" placeholder="Prénom et nom" required />
+        </div>
+        <div class="form-row">
+          <label>Téléphone *</label>
+          <input type="tel" name="telephone" placeholder="06 12 34 56 78" required />
+        </div>
+        <div class="form-row">
+          <label>Email *</label>
+          <input type="email" name="email" placeholder="vous@restaurant.fr" required />
+        </div>
+        <div class="form-row">
+          <label>Formule qui vous intéresse</label>
+          <select name="formule">
+            <option>Je ne sais pas encore</option>
+            <option>Découverte — 69€/mois</option>
+            <option>Pro — 99€/mois</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label>Un message ? (optionnel)</label>
+          <textarea name="message" placeholder="Nombre de tables, questions, disponibilités..."></textarea>
+        </div>
+        <button type="submit" class="form-submit" id="form-btn">Être recontacté gratuitement</button>
+      </form>
+      <div id="form-success" style="display:none;text-align:center;padding:40px 0;">
+        <div style="font-size:48px;margin-bottom:16px">✅</div>
+        <h3 style="font-size:20px;margin-bottom:8px">Merci !</h3>
+        <p style="color:var(--text-muted)">Nous vous recontactons sous 24h.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Plato</div>
+  <div class="footer-text">La commande à table, simplifiée. &copy; 2026 Plato. Tous droits réservés.</div>
+</footer>
+
+<script>
+async function submitForm(e) {
+  e.preventDefault();
+  const form = e.target;
+  const btn = document.getElementById('form-btn');
+  btn.textContent = 'Envoi en cours...';
+  btn.disabled = true;
+
+  try {
+    const formData = new FormData(form);
+    const res = await fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      body: formData
+    });
+    const data = await res.json();
+    if (data.success) {
+      form.style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    } else {
+      btn.textContent = 'Erreur, réessayez';
+      btn.disabled = false;
+    }
+  } catch (err) {
+    btn.textContent = 'Erreur, réessayez';
+    btn.disabled = false;
+  }
+}
+</script>
+
+</body>
+</html>
