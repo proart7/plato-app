@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inscription — Plato</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #6366F1; --primary-dark: #4F46E5; --primary-light: #EEF2FF;
+      --text: #111827; --text-muted: #6B7280; --bg: #FFFFFF; --bg-alt: #F9FAFB;
+      --border: #E5E7EB; --success: #10B981; --error: #EF4444;
+      --radius: 16px; --shadow: 0 4px 24px rgba(0,0,0,0.06);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { font-size: 16px; }
+    body { font-family: 'Inter', system-ui, sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; min-height: 100vh; display: flex; flex-direction: column; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; }
+
+    nav { background: rgba(255,255,255,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); padding: 0 24px; }
+    .nav-inner { max-width: 1100px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-size: 22px; font-weight: 800; color: var(--primary); }
+    .nav-logo-icon { width: 36px; height: 36px; background: var(--primary); border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+    .nav-logo-icon svg { width: 22px; height: 22px; }
+    .nav-links { display: flex; gap: 32px; align-items: center; }
+    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { background: var(--primary); color: white !important; padding: 10px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; transition: background .2s; }
+    .nav-cta:hover { background: var(--primary-dark); }
+    .nav-cta-outline { background: transparent; color: var(--primary) !important; border: 1.5px solid var(--primary); padding: 9px 22px; border-radius: 10px; font-size: 14px; font-weight: 600; transition: all .2s; }
+    .nav-cta-outline:hover { background: var(--primary-light); }
+
+    .auth-wrapper { flex: 1; display: flex; align-items: center; justify-content: center; padding: 40px 24px; background: linear-gradient(180deg, var(--primary-light) 0%, var(--bg) 100%); }
+    .auth-card { width: 100%; max-width: 520px; background: white; border: 1px solid var(--border); border-radius: 20px; padding: 48px 40px; box-shadow: var(--shadow); }
+    .auth-card h1 { font-size: 28px; font-weight: 800; text-align: center; margin-bottom: 8px; }
+    .auth-card .subtitle { text-align: center; color: var(--text-muted); font-size: 15px; margin-bottom: 32px; }
+
+    /* STEP INDICATOR */
+    .steps-indicator { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 32px; }
+    .step-dot { width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; font-weight: 700; border: 2px solid var(--border); color: var(--text-muted); transition: all .3s; }
+    .step-dot.active { background: var(--primary); color: white; border-color: var(--primary); }
+    .step-dot.done { background: var(--success); color: white; border-color: var(--success); }
+    .step-line { width: 40px; height: 2px; background: var(--border); transition: background .3s; }
+    .step-line.done { background: var(--success); }
+
+    /* PLAN SELECTOR */
+    .plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px; }
+    .plan-option { border: 2px solid var(--border); border-radius: 14px; padding: 20px; cursor: pointer; transition: all .2s; position: relative; }
+    .plan-option:hover { border-color: var(--primary); }
+    .plan-option.selected { border-color: var(--primary); background: var(--primary-light); }
+    .plan-option.recommended::after { content: 'Recommandé'; position: absolute; top: -10px; right: 12px; background: var(--primary); color: white; font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 100px; }
+    .plan-name { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .plan-price { font-size: 24px; font-weight: 900; color: var(--primary); }
+    .plan-price span { font-size: 14px; font-weight: 500; color: var(--text-muted); }
+    .plan-detail { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    .form-row { margin-bottom: 18px; }
+    .form-row label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+    .form-row input, .form-row select { width: 100%; padding: 12px 16px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 15px; font-family: inherit; transition: border .2s; outline: none; background: var(--bg-alt); }
+    .form-row input:focus, .form-row select:focus { border-color: var(--primary); background: white; }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-submit { width: 100%; padding: 14px; border-radius: 12px; background: var(--primary); color: white; font-size: 16px; font-weight: 700; transition: all .2s; margin-top: 8px; }
+    .form-submit:hover { background: var(--primary-dark); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-back { width: 100%; padding: 14px; border-radius: 12px; background: var(--bg-alt); color: var(--text); font-size: 15px; font-weight: 600; transition: all .2s; margin-top: 8px; }
+    .form-back:hover { background: var(--border); }
+    .form-footer { text-align: center; margin-top: 24px; font-size: 14px; color: var(--text-muted); }
+    .form-footer a { color: var(--primary); font-weight: 600; }
+    .form-footer a:hover { text-decoration: underline; }
+    .alert { padding: 12px 16px; border-radius: 10px; font-size: 14px; margin-bottom: 20px; display: none; }
+    .alert-error { background: #FEF2F2; color: var(--error); border: 1px solid #FECACA; }
+    .password-hint { font-size: 12px; color: var(--text-muted); margin-top: 4px; }
+
+    .step-section { display: none; }
+    .step-section.active { display: block; }
+
+    footer { padding: 32px 24px; border-top: 1px solid var(--border); text-align: center; }
+    .footer-logo { font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+    .footer-text { font-size: 13px; color: var(--text-muted); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .auth-card { padding: 32px 24px; }
+      .plan-grid { grid-template-columns: 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <div class="nav-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z" fill="rgba(255,255,255,0.2)"/><path d="M8.5 7.5v9M12 7.5v3.5c0 1.5 3 1.5 3 0V7.5M15.5 14v2.5" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        </div>
+        Plato
+      </a>
+      <div class="nav-links">
+        <a href="index.html#avantages">Avantages</a>
+        <a href="index.html#tarifs">Tarifs</a>
+        <a href="faq.html">FAQ</a>
+        <a href="login.html" class="nav-cta-outline">Se connecter</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h1>Créer votre compte</h1>
+      <p class="subtitle">Commencez à utiliser Plato en quelques minutes</p>
+
+      <div class="steps-indicator">
+        <div class="step-dot active" id="dot1">1</div>
+        <div class="step-line" id="line1"></div>
+        <div class="step-dot" id="dot2">2</div>
+        <div class="step-line" id="line2"></div>
+        <div class="step-dot" id="dot3">3</div>
+      </div>
+
+      <div id="alert" class="alert alert-error"></div>
+
+      <!-- STEP 1: Choose plan -->
+      <div class="step-section active" id="step1">
+        <h3 style="font-size:16px;font-weight:700;margin-bottom:16px;text-align:center">Choisissez votre forfait</h3>
+        <div class="plan-grid">
+          <div class="plan-option" id="plan-decouverte" onclick="selectPlan('decouverte')">
+            <div class="plan-name">Découverte</div>
+            <div class="plan-price">69€ <span>/mois</span></div>
+            <div class="plan-detail">Installation : 99€</div>
+          </div>
+          <div class="plan-option recommended selected" id="plan-pro" onclick="selectPlan('pro')">
+            <div class="plan-name">Pro</div>
+            <div class="plan-price">99€ <span>/mois</span></div>
+            <div class="plan-detail">Installation offerte</div>
+          </div>
+        </div>
+        <button class="form-submit" onclick="goToStep(2)">Continuer</button>
+      </div>
+
+      <!-- STEP 2: Restaurant info -->
+      <div class="step-section" id="step2">
+        <div class="form-row">
+          <label>Nom du restaurant *</label>
+          <input type="text" id="restaurant" placeholder="Ex : Le Petit Bistrot" required />
+        </div>
+        <div class="form-grid">
+          <div class="form-row">
+            <label>Votre prénom *</label>
+            <input type="text" id="firstName" placeholder="Prénom" required />
+          </div>
+          <div class="form-row">
+            <label>Votre nom *</label>
+            <input type="text" id="lastName" placeholder="Nom" required />
+          </div>
+        </div>
+        <div class="form-row">
+          <label>Téléphone *</label>
+          <input type="tel" id="phone" placeholder="06 12 34 56 78" required />
+        </div>
+        <div class="form-row">
+          <label>Ville du restaurant *</label>
+          <input type="text" id="city" placeholder="Paris, Lyon, Marseille..." required />
+        </div>
+        <button class="form-submit" onclick="goToStep(3)">Continuer</button>
+        <button class="form-back" onclick="goToStep(1)">Retour</button>
+      </div>
+
+      <!-- STEP 3: Account creation -->
+      <div class="step-section" id="step3">
+        <form id="signupForm" onsubmit="handleSignup(event)">
+          <div class="form-row">
+            <label>Adresse email *</label>
+            <input type="email" id="email" placeholder="vous@restaurant.fr" required />
+          </div>
+          <div class="form-row">
+            <label>Mot de passe *</label>
+            <input type="password" id="password" placeholder="Minimum 8 caractères" required minlength="8" />
+            <div class="password-hint">Au moins 8 caractères</div>
+          </div>
+          <div class="form-row">
+            <label>Confirmer le mot de passe *</label>
+            <input type="password" id="passwordConfirm" placeholder="Retapez le mot de passe" required />
+          </div>
+          <button type="submit" class="form-submit" id="submitBtn">Créer mon compte</button>
+        </form>
+        <button class="form-back" onclick="goToStep(2)">Retour</button>
+      </div>
+
+      <div class="form-footer">
+        Déjà un compte ? <a href="login.html">Se connecter</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-logo">Plato</div>
+    <div class="footer-text">La commande à table, simplifiée. &copy; 2026 Plato. Tous droits réservés.</div>
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+  <script>
+    // ===== CONFIGURATION FIREBASE =====
+    const firebaseConfig = {
+      apiKey: "VOTRE_API_KEY",
+      authDomain: "VOTRE_PROJET.firebaseapp.com",
+      projectId: "VOTRE_PROJET",
+      storageBucket: "VOTRE_PROJET.appspot.com",
+      messagingSenderId: "VOTRE_SENDER_ID",
+      appId: "VOTRE_APP_ID"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    auth.onAuthStateChanged(user => {
+      if (user) window.location.href = 'dashboard.html';
+    });
+
+    let selectedPlan = 'pro';
+
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      document.querySelectorAll('.plan-option').forEach(el => el.classList.remove('selected'));
+      document.getElementById('plan-' + plan).classList.add('selected');
+    }
+
+    function goToStep(step) {
+      // Validate step 2 before going to step 3
+      if (step === 3) {
+        const fields = ['restaurant', 'firstName', 'lastName', 'phone', 'city'];
+        for (const f of fields) {
+          if (!document.getElementById(f).value.trim()) {
+            showAlert('Veuillez remplir tous les champs.', 'error');
+            return;
+          }
+        }
+      }
+      document.querySelectorAll('.step-section').forEach(el => el.classList.remove('active'));
+      document.getElementById('step' + step).classList.add('active');
+      // Update indicators
+      for (let i = 1; i <= 3; i++) {
+        const dot = document.getElementById('dot' + i);
+        dot.classList.remove('active', 'done');
+        if (i < step) dot.classList.add('done');
+        if (i === step) dot.classList.add('active');
+      }
+      for (let i = 1; i <= 2; i++) {
+        const line = document.getElementById('line' + i);
+        line.classList.toggle('done', i < step);
+      }
+      document.getElementById('alert').style.display = 'none';
+    }
+
+    function showAlert(msg, type) {
+      const el = document.getElementById('alert');
+      el.textContent = msg;
+      el.className = 'alert alert-' + type;
+      el.style.display = 'block';
+    }
+
+    async function handleSignup(e) {
+      e.preventDefault();
+      const btn = document.getElementById('submitBtn');
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const passwordConfirm = document.getElementById('passwordConfirm').value;
+
+      if (password !== passwordConfirm) {
+        showAlert('Les mots de passe ne correspondent pas.', 'error');
+        return;
+      }
+      if (password.length < 8) {
+        showAlert('Le mot de passe doit contenir au moins 8 caractères.', 'error');
+        return;
+      }
+
+      btn.textContent = 'Création du compte...';
+      btn.disabled = true;
+
+      try {
+        const cred = await auth.createUserWithEmailAndPassword(email, password);
+        // Save profile to Firestore
+        await db.collection('users').doc(cred.user.uid).set({
+          email: email,
+          firstName: document.getElementById('firstName').value,
+          lastName: document.getElementById('lastName').value,
+          restaurant: document.getElementById('restaurant').value,
+          phone: document.getElementById('phone').value,
+          city: document.getElementById('city').value,
+          plan: selectedPlan,
+          planLabel: selectedPlan === 'pro' ? 'Pro — 99€/mois' : 'Découverte — 69€/mois',
+          createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+          status: 'active'
+        });
+        // Update display name
+        await cred.user.updateProfile({
+          displayName: document.getElementById('firstName').value + ' ' + document.getElementById('lastName').value
+        });
+        window.location.href = 'dashboard.html';
+      } catch (err) {
+        let msg = 'Une erreur est survenue.';
+        if (err.code === 'auth/email-already-in-use') msg = 'Cet email est déjà utilisé. Connectez-vous ou utilisez un autre email.';
+        if (err.code === 'auth/weak-password') msg = 'Le mot de passe est trop faible.';
+        if (err.code === 'auth/invalid-email') msg = 'L\'adresse email n\'est pas valide.';
+        showAlert(msg, 'error');
+        btn.textContent = 'Créer mon compte';
+        btn.disabled = false;
+      }
+    }
+
+    // Pre-select plan from URL param
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('plan') === 'decouverte') selectPlan('decouverte');
+  </script>
+</body>
+</html>
