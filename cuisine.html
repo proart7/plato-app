@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plato â Vue Cuisine (DÃ©mo)</title>
+  <title>Plato — Vue Cuisine (Démo)</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366F1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>P</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -205,9 +205,9 @@
       <span>Plato</span>
     </a>
     <div class="nav-links">
-      <a href="index.html#fonctionnement">Comment Ã§a marche</a>
+      <a href="index.html#fonctionnement">Comment ça marche</a>
       <a href="index.html#tarifs">Tarifs</a>
-      <a href="index.html#demo">DÃ©mo</a>
+      <a href="index.html#demo">Démo</a>
       <a href="faq.html">FAQ</a>
       <a href="login.html" class="nav-cta nav-cta-outline">Se connecter</a>
       <a href="index.html#contact" class="nav-cta">Nous contacter</a>
@@ -216,9 +216,9 @@
 
   <!-- PAGE HEADER -->
   <div class="page-header">
-    <div class="tag">DÃ©mo live â Vue Cuisine</div>
-    <h1>Ãcran cuisine</h1>
-    <p>Les tickets de commande arrivent en temps rÃ©el. Cochez les plats prÃ©parÃ©s et validez quand c'est prÃªt.</p>
+    <div class="tag">Démo live — Vue Cuisine</div>
+    <h1>Écran cuisine</h1>
+    <p>Les tickets de commande arrivent en temps réel. Cochez les plats préparés et validez quand c'est prêt.</p>
   </div>
 
   <!-- DEMO LINKS -->
@@ -245,18 +245,18 @@
           <div class="kitchen-counter">
             <div class="counter-item">
               <div class="num urgent" id="counterPending">0</div>
-              <div class="label">Ã prÃ©parer</div>
+              <div class="label">À préparer</div>
             </div>
             <div class="counter-item">
               <div class="num" id="counterDone">0</div>
-              <div class="label">PrÃªtes</div>
+              <div class="label">Prêtes</div>
             </div>
           </div>
 
           <!-- Tickets -->
           <div class="tickets-container" id="ticketsContainer">
             <div class="empty-kitchen">
-              <div class="emoji">ð¨âð³</div>
+              <div class="emoji">👨‍🍳</div>
               <p>En attente de commandes...</p>
             </div>
           </div>
@@ -265,7 +265,7 @@
     </div>
   </div>
 
-  <p class="demo-note">Passez une commande depuis la <a href="index.html#demo" style="color:var(--primary);font-weight:600;">vue client</a>, puis gÃ©rez-la depuis la <a href="admin.html" style="color:var(--primary);font-weight:600;">vue admin</a> pour la voir apparaÃ®tre ici.</p>
+  <p class="demo-note">Passez une commande depuis la <a href="index.html#demo" style="color:var(--primary);font-weight:600;">vue client</a>, puis gérez-la depuis la <a href="admin.html" style="color:var(--primary);font-weight:600;">vue admin</a> pour la voir apparaître ici.</p>
 
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -311,7 +311,7 @@
     function getTimeSince(timestamp) {
       if (!timestamp) return '';
       const diff = Math.floor((Date.now() - new Date(timestamp).getTime()) / 60000);
-      if (diff < 1) return 'Ã l\'instant';
+      if (diff < 1) return 'À l\'instant';
       if (diff < 60) return diff + ' min';
       return Math.floor(diff / 60) + 'h' + (diff % 60).toString().padStart(2, '0');
     }
@@ -320,7 +320,7 @@
       const container = document.getElementById('ticketsContainer');
 
       if (orders.length === 0) {
-        container.innerHTML = `<div class="empty-kitchen"><div class="emoji">ð¨âð³</div><p>Aucun ticket en cuisine.<br>Les commandes envoyÃ©es depuis l'admin apparaÃ®tront ici.</p></div>`;
+        container.innerHTML = `<div class="empty-kitchen"><div class="emoji">👨‍🍳</div><p>Aucun ticket en cuisine.<br>Les commandes envoyées depuis l'admin apparaîtront ici.</p></div>`;
         return;
       }
 
@@ -343,7 +343,7 @@
             <span class="qty">${item.qty}</span>
             <span class="name">${item.name}</span>
             <button class="check-btn" onclick="toggleItem('${key}')">
-              ${isChecked ? 'â' : ''}
+              ${isChecked ? '✓' : ''}
             </button>
           </div>`;
         }).join('');
@@ -355,7 +355,7 @@
           </div>
           <div class="ticket-items">${items}</div>
           ${order.status === 'preparing' ? `<div class="ticket-actions">
-            <button class="ticket-btn btn-done" onclick="markReady('${order.docId}')">Commande prÃªte â</button>
+            <button class="ticket-btn btn-done" onclick="markReady('${order.docId}')">Commande prête ✓</button>
           </div>` : ''}
         </div>`;
       }).join('');
@@ -368,7 +368,7 @@
       const checkBtn = event.target.closest('.check-btn');
       const itemDiv = checkBtn.closest('.ticket-item');
       itemDiv.classList.toggle('checked');
-      checkBtn.innerHTML = checkedItems[key] ? 'â' : '';
+      checkBtn.innerHTML = checkedItems[key] ? '✓' : '';
     }
 
     async function markReady(docId) {
