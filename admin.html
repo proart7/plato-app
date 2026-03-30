@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plato â Vue Admin (DÃ©mo)</title>
+  <title>Plato — Vue Admin (Démo)</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366F1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>P</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -200,9 +200,9 @@
       <span>Plato</span>
     </a>
     <div class="nav-links">
-      <a href="index.html#fonctionnement">Comment Ã§a marche</a>
+      <a href="index.html#fonctionnement">Comment ça marche</a>
       <a href="index.html#tarifs">Tarifs</a>
-      <a href="index.html#demo">DÃ©mo</a>
+      <a href="index.html#demo">Démo</a>
       <a href="faq.html">FAQ</a>
       <a href="login.html" class="nav-cta nav-cta-outline">Se connecter</a>
       <a href="index.html#contact" class="nav-cta">Nous contacter</a>
@@ -211,9 +211,9 @@
 
   <!-- PAGE HEADER -->
   <div class="page-header">
-    <div class="tag">DÃ©mo live â Vue Admin</div>
+    <div class="tag">Démo live — Vue Admin</div>
     <h1>Tableau de bord restaurateur</h1>
-    <p>GÃ©rez vos commandes en temps rÃ©el. Chaque commande passÃ©e depuis la vue client apparaÃ®t instantanÃ©ment ici.</p>
+    <p>Gérez vos commandes en temps réel. Chaque commande passée depuis la vue client apparaît instantanément ici.</p>
   </div>
 
   <!-- DEMO LINKS -->
@@ -244,7 +244,7 @@
                 <div class="stat-label">Servies</div>
               </div>
               <div class="stat-card info">
-                <div class="stat-value" id="statRevenue">0â¬</div>
+                <div class="stat-value" id="statRevenue">0€</div>
                 <div class="stat-label">CA du jour</div>
               </div>
             </div>
@@ -261,7 +261,7 @@
           <!-- Orders -->
           <div class="orders-list" id="ordersList">
             <div class="empty-state">
-              <div class="emoji">ð</div>
+              <div class="emoji">📋</div>
               <p>Chargement des commandes...</p>
             </div>
           </div>
@@ -270,7 +270,7 @@
     </div>
   </div>
 
-  <p class="demo-note">Les commandes passÃ©es depuis la <a href="index.html#demo" style="color:var(--primary);font-weight:600;">vue client</a> apparaissent ici en temps rÃ©el.</p>
+  <p class="demo-note">Les commandes passées depuis la <a href="index.html#demo" style="color:var(--primary);font-weight:600;">vue client</a> apparaissent ici en temps réel.</p>
 
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -312,7 +312,7 @@
 
       document.getElementById('statPending').textContent = pending;
       document.getElementById('statServed').textContent = served;
-      document.getElementById('statRevenue').textContent = revenue + 'â¬';
+      document.getElementById('statRevenue').textContent = revenue + '€';
     }
 
     function filterOrders(filter) {
@@ -336,7 +336,7 @@
       }
 
       if (filtered.length === 0) {
-        container.innerHTML = `<div class="empty-state"><div class="emoji">ð</div><p>Aucune commande${currentFilter !== 'all' ? ' avec ce statut' : ''}.<br>Passez une commande depuis la vue client !</p></div>`;
+        container.innerHTML = `<div class="empty-state"><div class="emoji">📋</div><p>Aucune commande${currentFilter !== 'all' ? ' avec ce statut' : ''}.<br>Passez une commande depuis la vue client !</p></div>`;
         return;
       }
 
@@ -344,11 +344,11 @@
         const status = order.status || 'received';
         const time = order.timestamp ? new Date(order.timestamp).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' }) : '--:--';
         const items = (order.items || []).map(i =>
-          `<div class="order-item"><span>${i.qty}x ${i.name}</span><span>${(i.price * i.qty).toFixed(2)}â¬</span></div>`
+          `<div class="order-item"><span>${i.qty}x ${i.name}</span><span>${(i.price * i.qty).toFixed(2)}€</span></div>`
         ).join('');
 
         const badgeClass = `badge-${status}`;
-        const badgeText = { received: 'Nouvelle', preparing: 'En prÃ©paration', ready: 'PrÃªte', served: 'Servie', cancelled: 'AnnulÃ©e' }[status] || status;
+        const badgeText = { received: 'Nouvelle', preparing: 'En préparation', ready: 'Prête', served: 'Servie', cancelled: 'Annulée' }[status] || status;
 
         let actions = '';
         if (status === 'received') {
@@ -358,7 +358,7 @@
           </div>`;
         } else if (status === 'preparing') {
           actions = `<div class="order-actions">
-            <button class="action-btn btn-ready" onclick="updateStatus('${order.docId}','ready')">PrÃªte !</button>
+            <button class="action-btn btn-ready" onclick="updateStatus('${order.docId}','ready')">Prête !</button>
           </div>`;
         } else if (status === 'ready') {
           actions = `<div class="order-actions">
@@ -374,7 +374,7 @@
           <span class="order-badge ${badgeClass}">${badgeText}</span>
           <div class="order-items">${items}</div>
           <div class="order-footer">
-            <span class="order-total">${(order.total || 0).toFixed(2)}â¬</span>
+            <span class="order-total">${(order.total || 0).toFixed(2)}€</span>
             <span class="order-time">${time}</span>
           </div>
           ${actions}
@@ -390,7 +390,7 @@
         }
         await db.collection('orders').doc(docId).update(updateData);
       } catch (e) {
-        console.error('Erreur mise Ã  jour:', e);
+        console.error('Erreur mise à jour:', e);
       }
     }
   </script>
