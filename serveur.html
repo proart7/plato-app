@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plato â Vue Serveur (DÃ©mo)</title>
+  <title>Plato — Vue Serveur (Démo)</title>
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%236366F1'/><text x='50' y='68' font-size='50' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>P</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
@@ -199,9 +199,9 @@
       <span>Plato</span>
     </a>
     <div class="nav-links">
-      <a href="index.html#fonctionnement">Comment Ã§a marche</a>
+      <a href="index.html#fonctionnement">Comment ça marche</a>
       <a href="index.html#tarifs">Tarifs</a>
-      <a href="index.html#demo">DÃ©mo</a>
+      <a href="index.html#demo">Démo</a>
       <a href="faq.html">FAQ</a>
       <a href="login.html" class="nav-cta nav-cta-outline">Se connecter</a>
       <a href="index.html#contact" class="nav-cta">Nous contacter</a>
@@ -210,9 +210,9 @@
 
   <!-- PAGE HEADER -->
   <div class="page-header">
-    <div class="tag">DÃ©mo live â Vue Serveur</div>
+    <div class="tag">Démo live — Vue Serveur</div>
     <h1>Interface serveur</h1>
-    <p>Visualisez les tables et commandes en temps rÃ©el. Recevez une alerte quand une commande est prÃªte Ã  servir.</p>
+    <p>Visualisez les tables et commandes en temps réel. Recevez une alerte quand une commande est prête à servir.</p>
   </div>
 
   <!-- DEMO LINKS -->
@@ -243,7 +243,7 @@
             </div>
             <div class="summary-item">
               <div class="num green" id="sumReady">0</div>
-              <div class="label">Ã servir</div>
+              <div class="label">À servir</div>
             </div>
             <div class="summary-item">
               <div class="num purple" id="sumServed">0</div>
@@ -254,7 +254,7 @@
           <!-- Tables Grid -->
           <div class="tables-grid" id="tablesGrid">
             <div class="empty-server">
-              <div class="emoji">ð½ï¸</div>
+              <div class="emoji">🍽️</div>
               <p>Chargement...</p>
             </div>
           </div>
@@ -263,7 +263,7 @@
     </div>
   </div>
 
-  <p class="demo-note">Les commandes sont synchronisÃ©es en temps rÃ©el avec les vues <a href="index.html#demo" style="color:var(--primary);font-weight:600;">client</a>, <a href="admin.html" style="color:var(--primary);font-weight:600;">admin</a> et <a href="cuisine.html" style="color:var(--primary);font-weight:600;">cuisine</a>.</p>
+  <p class="demo-note">Les commandes sont synchronisées en temps réel avec les vues <a href="index.html#demo" style="color:var(--primary);font-weight:600;">client</a>, <a href="admin.html" style="color:var(--primary);font-weight:600;">admin</a> et <a href="cuisine.html" style="color:var(--primary);font-weight:600;">cuisine</a>.</p>
 
   <!-- FIREBASE -->
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
@@ -313,7 +313,7 @@
     function getTimeSince(timestamp) {
       if (!timestamp) return '';
       const diff = Math.floor((Date.now() - new Date(timestamp).getTime()) / 60000);
-      if (diff < 1) return 'Ã l\'instant';
+      if (diff < 1) return 'À l\'instant';
       if (diff < 60) return 'il y a ' + diff + ' min';
       return 'il y a ' + Math.floor(diff / 60) + 'h';
     }
@@ -366,7 +366,7 @@
         const status = latestOrder.status;
         const statusLabels = {
           received: 'En attente', preparing: 'En cuisine',
-          ready: 'Ã servir !', served: 'Servie'
+          ready: 'À servir !', served: 'Servie'
         };
         const statusClasses = {
           received: 'status-waiting', preparing: 'status-preparing',
@@ -386,10 +386,10 @@
           </div>
           <div class="table-items">${items}</div>
           <div class="table-footer">
-            <span class="table-total">${(latestOrder.total || 0).toFixed(2)}â¬</span>
+            <span class="table-total">${(latestOrder.total || 0).toFixed(2)}€</span>
             <span class="table-time">${getTimeSince(latestOrder.timestamp)}</span>
           </div>
-          ${isReady ? `<button class="table-action btn-serve-table" onclick="markServed('${latestOrder.docId}')">Marquer servie â</button>` : ''}
+          ${isReady ? `<button class="table-action btn-serve-table" onclick="markServed('${latestOrder.docId}')">Marquer servie ✓</button>` : ''}
         </div>`;
       }).join('');
     }
