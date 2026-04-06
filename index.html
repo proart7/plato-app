@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Plato — La commande à table, simplifiée</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='8' fill='%236366F1'/><text x='16' y='22' text-anchor='middle' font-family='Arial,sans-serif' font-weight='900' font-size='22' fill='white'>P</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   <style>
@@ -25,13 +26,7 @@
     }
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { font-size: 16px; scroll-behavior: smooth; }
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      color: var(--text);
-      background: var(--bg);
-      line-height: 1.6;
-      overflow-x: hidden;
-    }
+    body { font-family: 'Inter', system-ui, sans-serif; color: var(--text); background: var(--bg); line-height: 1.6; overflow-x: hidden; }
     a { text-decoration: none; color: inherit; }
     button { cursor: pointer; font-family: inherit; border: none; }
     img { max-width: 100%; }
@@ -59,15 +54,82 @@
       border-radius: 10px; display: flex; align-items: center; justify-content: center;
     }
     .nav-logo-icon svg { width: 22px; height: 22px; }
-    .nav-links { display: flex; gap: 32px; align-items: center; }
-    .nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); transition: color .2s; }
+    .nav-links {
+      display: flex; gap: 24px; align-items: center;
+    }
+    .nav-links a {
+      font-size: 14px; font-weight: 500; color: var(--text-muted);
+      transition: color .2s; white-space: nowrap;
+    }
     .nav-links a:hover { color: var(--text); }
     .nav-cta {
-      background: var(--primary); color: white; padding: 10px 22px;
-      border-radius: 10px; font-size: 14px; font-weight: 600;
-      transition: background .2s;
+      background: var(--primary); color: white !important;
+      padding: 10px 20px; border-radius: 10px;
+      font-size: 14px; font-weight: 600;
+      transition: background .2s; white-space: nowrap;
     }
-    .nav-cta:hover { background: var(--primary-dark); }
+    .nav-cta:hover { background: var(--primary-dark); color: white !important; }
+    .nav-cta-outline {
+      background: transparent !important;
+      color: var(--primary) !important;
+      border: 2px solid var(--primary) !important;
+      padding: 8px 20px; border-radius: 10px;
+      font-size: 14px; font-weight: 600;
+      transition: all .2s; white-space: nowrap;
+    }
+    .nav-cta-outline:hover {
+      background: var(--primary-light) !important;
+    }
+
+    /* Hamburger menu mobile */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 8px;
+      z-index: 1001;
+    }
+    .nav-hamburger span {
+      display: block; width: 24px; height: 2.5px;
+      background: var(--text); border-radius: 2px;
+      transition: all .3s;
+    }
+    .nav-mobile-overlay {
+      display: none;
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 998;
+    }
+    .nav-mobile-overlay.active { display: block; }
+    .nav-mobile {
+      display: none;
+      position: fixed; top: 0; right: -300px;
+      width: 280px; height: 100vh;
+      background: white;
+      box-shadow: -4px 0 24px rgba(0,0,0,0.1);
+      z-index: 999;
+      padding: 80px 32px 32px;
+      flex-direction: column; gap: 8px;
+      transition: right .3s ease;
+    }
+    .nav-mobile.active { right: 0; }
+    .nav-mobile a {
+      display: block; padding: 14px 0;
+      font-size: 16px; font-weight: 500;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      transition: color .2s;
+    }
+    .nav-mobile a:hover { color: var(--primary); }
+    .nav-mobile .nav-mobile-cta {
+      display: block; text-align: center;
+      margin-top: 16px; padding: 14px;
+      background: var(--primary); color: white !important;
+      border-radius: 12px; font-weight: 700;
+      border-bottom: none;
+    }
+    .nav-mobile .nav-mobile-cta:hover { background: var(--primary-dark); }
 
     /* ============ HERO ============ */
     .hero {
@@ -85,27 +147,27 @@
     }
     .hero-badge-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); }
     .hero h1 {
-      font-size: clamp(36px, 5vw, 56px);
-      font-weight: 900; line-height: 1.1;
-      letter-spacing: -1.5px; color: var(--text);
-      margin-bottom: 20px;
+      font-size: clamp(36px, 5vw, 56px); font-weight: 900;
+      line-height: 1.1; letter-spacing: -1.5px;
+      color: var(--text); margin-bottom: 20px;
     }
     .hero h1 span { color: var(--primary); }
     .hero p {
       font-size: 18px; color: var(--text-muted);
-      max-width: 520px; margin: 0 auto 40px;
-      line-height: 1.7;
+      max-width: 520px; margin: 0 auto 40px; line-height: 1.7;
     }
     .hero-buttons { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
     .btn-primary {
       background: var(--primary); color: white;
       padding: 16px 32px; border-radius: 12px;
       font-size: 16px; font-weight: 700;
-      transition: all .2s; box-shadow: 0 4px 16px rgba(99,102,241,0.3);
+      transition: all .2s;
+      box-shadow: 0 4px 16px rgba(99,102,241,0.3);
     }
     .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
     .btn-secondary {
-      background: white; color: var(--text); border: 1.5px solid var(--border);
+      background: white; color: var(--text);
+      border: 1.5px solid var(--border);
       padding: 16px 32px; border-radius: 12px;
       font-size: 16px; font-weight: 600;
       transition: all .2s;
@@ -113,11 +175,7 @@
     .btn-secondary:hover { border-color: var(--primary); color: var(--primary); }
 
     /* ============ STATS BAR ============ */
-    .stats-bar {
-      padding: 48px 24px;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-    }
+    .stats-bar { padding: 48px 24px; background: var(--bg); border-bottom: 1px solid var(--border); }
     .stats-inner {
       max-width: 900px; margin: 0 auto;
       display: grid; grid-template-columns: repeat(3, 1fr);
@@ -139,15 +197,15 @@
       margin-bottom: 16px;
     }
     .section-header h2 {
-      font-size: clamp(28px, 4vw, 40px);
-      font-weight: 800; letter-spacing: -0.5px;
-      margin-bottom: 16px;
+      font-size: clamp(28px, 4vw, 40px); font-weight: 800;
+      letter-spacing: -0.5px; margin-bottom: 16px;
     }
-    .section-header p { font-size: 17px; color: var(--text-muted); max-width: 560px; margin: 0 auto; }
-
+    .section-header p {
+      font-size: 17px; color: var(--text-muted);
+      max-width: 560px; margin: 0 auto;
+    }
     .advantages-grid {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px;
     }
     .advantage-card {
       background: white; border: 1px solid var(--border);
@@ -197,15 +255,12 @@
       position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
       background: var(--primary); color: white;
       padding: 5px 18px; border-radius: 100px;
-      font-size: 12px; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.5px;
+      font-size: 12px; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.5px;
     }
     .pricing-name { font-size: 22px; font-weight: 800; margin-bottom: 6px; }
     .pricing-desc { font-size: 14px; color: var(--text-muted); margin-bottom: 24px; }
-    .pricing-price {
-      display: flex; align-items: baseline; gap: 4px;
-      margin-bottom: 8px;
-    }
+    .pricing-price { display: flex; align-items: baseline; gap: 4px; margin-bottom: 8px; }
     .pricing-amount { font-size: 48px; font-weight: 900; letter-spacing: -2px; }
     .pricing-period { font-size: 16px; color: var(--text-muted); font-weight: 500; }
     .pricing-setup { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; }
@@ -217,16 +272,15 @@
       display: flex; align-items: flex-start; gap: 10px;
     }
     .pricing-features li::before {
-      content: "✓"; color: var(--success); font-weight: 800;
-      font-size: 15px; flex-shrink: 0;
+      content: "✓"; color: var(--success);
+      font-weight: 800; font-size: 15px; flex-shrink: 0;
     }
     .pricing-features li.disabled { color: var(--text-muted); opacity: 0.5; }
     .pricing-features li.disabled::before { content: "—"; color: var(--text-muted); }
     .pricing-btn {
       display: block; width: 100%; text-align: center;
       padding: 14px; border-radius: 12px;
-      font-size: 15px; font-weight: 700;
-      transition: all .2s;
+      font-size: 15px; font-weight: 700; transition: all .2s;
     }
     .pricing-btn-primary { background: var(--primary); color: white; }
     .pricing-btn-primary:hover { background: var(--primary-dark); }
@@ -239,17 +293,12 @@
       max-width: 380px; margin: 0 auto;
       border-radius: 24px; overflow: hidden;
       box-shadow: var(--shadow-lg);
-      border: 8px solid #1A1A2E;
-      background: #1A1A2E;
+      border: 8px solid #1A1A2E; background: #1A1A2E;
     }
     .demo-frame iframe {
-      width: 100%; height: 700px; border: none;
-      border-radius: 16px;
+      width: 100%; height: 700px; border: none; border-radius: 16px;
     }
-    .demo-note {
-      margin-top: 20px; font-size: 14px;
-      color: var(--text-muted);
-    }
+    .demo-note { margin-top: 20px; font-size: 14px; color: var(--text-muted); }
 
     /* ============ CONTACT ============ */
     .contact-card {
@@ -259,10 +308,7 @@
       box-shadow: var(--shadow);
     }
     .form-row { margin-bottom: 20px; }
-    .form-row label {
-      display: block; font-size: 14px; font-weight: 600;
-      margin-bottom: 6px;
-    }
+    .form-row label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 6px; }
     .form-row input, .form-row textarea, .form-row select {
       width: 100%; padding: 12px 16px;
       border: 1.5px solid var(--border); border-radius: 10px;
@@ -284,19 +330,34 @@
 
     /* ============ FOOTER ============ */
     footer {
-      padding: 48px 24px;
+      padding: 48px 24px 32px;
       border-top: 1px solid var(--border);
       text-align: center;
     }
-    .footer-logo { font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 12px; }
-    .footer-text { font-size: 13px; color: var(--text-muted); }
+    .footer-logo { font-size: 20px; font-weight: 800; color: var(--primary); margin-bottom: 8px; }
+    .footer-tagline { font-size: 14px; color: var(--text-muted); margin-bottom: 16px; }
+    .footer-links {
+      display: flex; justify-content: center; gap: 24px;
+      margin-bottom: 16px; flex-wrap: wrap;
+    }
+    .footer-links a {
+      font-size: 13px; color: var(--text-muted);
+      transition: color .2s;
+    }
+    .footer-links a:hover { color: var(--primary); }
+    .footer-copy { font-size: 12px; color: var(--text-muted); opacity: 0.7; }
 
     /* ============ RESPONSIVE ============ */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+      .nav-mobile { display: flex; }
+    }
+    @media (max-width: 768px) {
       .stats-inner { grid-template-columns: 1fr; gap: 24px; }
       .pricing-grid { grid-template-columns: 1fr; }
       .contact-card { padding: 32px 24px; }
+      .hero h1 { font-size: 32px; }
     }
   </style>
 </head>
@@ -317,11 +378,26 @@
       <a href="#tarifs">Tarifs</a>
       <a href="#demo">Démo</a>
       <a href="faq.html">FAQ</a>
-      <a href="login.html" class="nav-cta" style="background:transparent !important;color:var(--primary) !important;border:2px solid var(--primary) !important;">Se connecter</a>
+      <a href="login.html" class="nav-cta-outline">Se connecter</a>
       <a href="#contact" class="nav-cta">Nous contacter</a>
+    </div>
+    <div class="nav-hamburger" onclick="toggleMobileMenu()">
+      <span></span><span></span><span></span>
     </div>
   </div>
 </nav>
+
+<!-- Mobile menu -->
+<div class="nav-mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+<div class="nav-mobile" id="mobileMenu">
+  <a href="#avantages" onclick="toggleMobileMenu()">Avantages</a>
+  <a href="#fonctionnement" onclick="toggleMobileMenu()">Comment ça marche</a>
+  <a href="#tarifs" onclick="toggleMobileMenu()">Tarifs</a>
+  <a href="#demo" onclick="toggleMobileMenu()">Démo</a>
+  <a href="faq.html">FAQ</a>
+  <a href="login.html">Se connecter</a>
+  <a href="#contact" class="nav-mobile-cta" onclick="toggleMobileMenu()">Nous contacter</a>
+</div>
 
 <!-- HERO -->
 <section class="hero">
@@ -442,7 +518,6 @@
       <p>Moins cher qu'un serveur à mi-temps. Rentabilisé dès la première semaine.</p>
     </div>
     <div class="pricing-grid">
-
       <!-- DECOUVERTE -->
       <div class="pricing-card">
         <div class="pricing-name">Découverte</div>
@@ -468,7 +543,6 @@
         </ul>
         <a href="signup.html?plan=decouverte" class="pricing-btn pricing-btn-secondary">Choisir Découverte</a>
       </div>
-
       <!-- PRO -->
       <div class="pricing-card featured">
         <div class="pricing-badge">Recommandé</div>
@@ -491,7 +565,6 @@
         </ul>
         <a href="signup.html?plan=pro" class="pricing-btn pricing-btn-primary">Choisir Pro</a>
       </div>
-
     </div>
   </div>
 </section>
@@ -572,17 +645,31 @@
 <!-- FOOTER -->
 <footer>
   <div class="footer-logo">Plato</div>
-  <div class="footer-text">La commande à table, simplifiée. &copy; 2026 Plato. Tous droits réservés.</div>
+  <div class="footer-tagline">La commande à table, simplifiée.</div>
+  <div class="footer-links">
+    <a href="#avantages">Avantages</a>
+    <a href="#tarifs">Tarifs</a>
+    <a href="#demo">Démo</a>
+    <a href="faq.html">FAQ</a>
+    <a href="#contact">Contact</a>
+    <a href="cgv.html">Conditions générales</a>
+  </div>
+  <div class="footer-copy">&copy; 2026 Plato. Tous droits réservés.</div>
 </footer>
 
 <script>
+function toggleMobileMenu() {
+  document.getElementById('mobileMenu').classList.toggle('active');
+  document.getElementById('mobileOverlay').classList.toggle('active');
+  document.body.style.overflow = document.getElementById('mobileMenu').classList.contains('active') ? 'hidden' : '';
+}
+
 async function submitForm(e) {
   e.preventDefault();
   const form = e.target;
   const btn = document.getElementById('form-btn');
   btn.textContent = 'Envoi en cours...';
   btn.disabled = true;
-
   try {
     const formData = new FormData(form);
     const res = await fetch('https://api.web3forms.com/submit', {
